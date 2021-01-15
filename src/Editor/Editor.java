@@ -9,34 +9,47 @@ public class Editor {
         return scanner.nextLine();
     }
 
-    public static void startProgram() {
-        while (true) {
-            handleCommands();
-            System.out.println("Do you want to continue? Write yes, else write no ");
-            if (getInput().equals("no")) {
-               break;
-            }
+    public static void runProgram() {
+        handleCommands();
+        handleContinue();
+    }
+
+    private static void handleContinue() {
+        System.out.println(Output.printContinue);
+        if (getInput().equals("no")) {
+            System.exit(0);
+        } else if (getInput().equals("yes")) {
+            runProgram();
+        } else {
+            System.out.println(Output.printYesOrNo);
+            handleContinue();
         }
     }
 
-    public static void handleCommands() {
+    private static void handleCommands() {
         System.out.println(Output.printOptions);
-        int input = Integer.parseInt(getInput());
-        if (input == 1) {
-            getLowercase();
-        } else if (input == 2){
-            getUppercase();
-        } else if (input == 3) {
-
-        } else if (input == 4) {
-            getPenultimateWord();
-        } else {
-            System.out.println(Output.printNoValidNumber);
+        try {
+            int input = Integer.parseInt(getInput());
+            if (input == 1) {
+                getLowercase();
+            } else if (input == 2){
+                getUppercase();
+            } else if (input == 3) {
+                getFirstLetterUppercase();
+            } else if (input == 4) {
+                getPenultimateWord();
+            } else {
+                System.out.println(Output.printNoValidNumber);
+                handleCommands();
+            }
+        } catch(NumberFormatException e) {
+            System.out.println(Output.printNumberFormat);
+            handleCommands();
         }
     }
 
     private static void getPenultimateWord() {
-        System.out.println("Enter the String, you want to have a penultimate word of: ");
+        System.out.println(Output.printString);
         String[] array = getInput().split("\\s+");
         try {
             System.out.println(Output.printPenultimateWord + array[array.length - 2]);
@@ -53,5 +66,16 @@ public class Editor {
     private static void getUppercase() {
         System.out.println(Output.printString);
         System.out.println(getInput().toUpperCase());
+    }
+
+    private static void getFirstLetterUppercase() {
+        System.out.println(Output.printString);
+        String[] array = getInput().split("\\s+");
+        for (int i = 0; i < array.length; i++) {
+            char[] ch = array[i].toCharArray();
+            String word = String.valueOf(ch[0]).toUpperCase() + array[i].substring(1) + " ";
+            System.out.print(word);
+        }
+        System.out.println("");
     }
 }
