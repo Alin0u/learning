@@ -16,9 +16,10 @@ public class Editor {
 
     private static void handleContinue() {
         System.out.println(Output.printContinue);
-        if (getInput().equals("no")) {
+        String input = getInput();
+        if (input.equals("no")) {
             System.exit(0);
-        } else if (getInput().equals("yes")) {
+        } else if (input.equals("yes")) {
             runProgram();
         } else {
             System.out.println(Output.printYesOrNo);
